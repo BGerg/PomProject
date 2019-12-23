@@ -4,7 +4,7 @@ from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.core.window import Window
-
+from kivy.graphics import *
 
 class Buttons(RelativeLayout):
     def __init__(self, **kwargs):
@@ -14,6 +14,12 @@ class Buttons(RelativeLayout):
         button_height = 100
         button_width = 200
 
+        with self.canvas:
+            # Add a red color
+            Color(1., 0, 0)
+
+            # Add a rectangle
+            Ellipse(pos=(10, 10), size=(500, 500))
 
         btn1 = Button(text ='START',
                     font_size = 55,
