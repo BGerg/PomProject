@@ -15,11 +15,12 @@ class Buttons(RelativeLayout):
         button_width = 200
 
         with self.canvas:
-            # Add a red color
-            Color(1., 0, 0)
-
-            # Add a rectangle
-            Ellipse(pos=(10, 10), size=(500, 500))
+            #Progress bar backgorund
+            Color(0.26, 0.26, 0.26)
+            Ellipse(pos=(225, 200), size=(350, 350))
+            #Progress bar foreground
+            Color(0, 0, 0)
+            Ellipse(pos=(260, 235), size=(280, 280))
 
         btn1 = Button(text ='START',
                     font_size = 55,
