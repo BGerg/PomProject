@@ -27,6 +27,7 @@ class Buttons(RelativeLayout):
             Color(0, 0, 0)
             Ellipse(pos=(260, 235), size=(280, 280))
 
+        print("bal")
 
         btn1 = Button(text ='START',
                     font_size = 55,
