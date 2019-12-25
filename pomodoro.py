@@ -10,12 +10,14 @@ class Buttons(RelativeLayout):
     def __init__(self, **kwargs):
         super(Buttons, self).__init__(**kwargs)
 
-        percentage = 20
+
+
         button_height = 100
         button_width = 200
-
+        percentage = 1
 
         with self.canvas:
+            self.canvas.clear()
             #Progress bar backgorund
             Color(0.26, 0.26, 0.26)
             Ellipse(pos=(225, 200), size=(350, 350))
@@ -27,7 +29,7 @@ class Buttons(RelativeLayout):
             Color(0, 0, 0)
             Ellipse(pos=(260, 235), size=(280, 280))
 
-        print("bal")
+
 
         btn1 = Button(text ='START',
                     font_size = 55,
@@ -49,7 +51,8 @@ class Buttons(RelativeLayout):
                     size_hint = (None,None))
 
         def callback(instance):
-            percentage += 30
+            self.label.refresh()
+
         btn1.bind(on_press= callback)
         btn2.bind(on_press= lambda a:print("btn2 ok"))
         btn3.bind(on_press= lambda a:print("btn2 ok"))
