@@ -9,36 +9,49 @@ from kivy.uix.progressbar import ProgressBar
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
 import time
+
 class MyWidget(Widget):
     def __init__(self, **kwargs):
         super(MyWidget, self).__init__(**kwargs)
 
+<<<<<<< HEAD
 
 
+=======
+        #inp = int(input())
+        self.gro = 360//60
+        percentage = 20
+>>>>>>> devbasics
         button_height = 100
         button_width = 200
 <<<<<<< HEAD
         percentage = 1
 =======
         self.draw(0.0001)
-        self.buttons()
+        self.buttons(False)
 
     def printer(self,dt):
-        self.draw(self.percentage+1)
-        self.buttons()
+
+        if self.percentage < 360:
+            self.draw(self.percentage+self.gro)
+        else:
+            self.draw(0.0001)
+        self.buttons(True)
+
 
     def start(self, instance):
         Clock.schedule_interval(self.printer, 1)
 
     def stop(self, instance):
         Clock.unschedule(self.printer)
+        self.buttons(False)
 
     def reset(self, instance):
         Clock.unschedule(self.printer)
         self.draw(0.0001)
-        self.buttons()
+        self.buttons(False)
 
-    def buttons(self):
+    def buttons(self, state):
 
         button_height = 100
         button_width = 200
@@ -62,6 +75,7 @@ class MyWidget(Widget):
                         size = (button_width,button_height),
                         size_hint = (None,None))
 
+        btn1.disabled = state
 
         btn1.bind(on_press = self.start)
         btn2.bind(on_press = self.stop)
