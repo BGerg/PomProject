@@ -8,6 +8,7 @@ from kivy.graphics import *
 from kivy.uix.progressbar import ProgressBar
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
+from playsound import playsound
 import time
 
 class MyWidget(Widget):
@@ -15,32 +16,52 @@ class MyWidget(Widget):
         super(MyWidget, self).__init__(**kwargs)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 =======
         #inp = int(input())
         self.gro = 360//60
+=======
+        self.basetime= 25
+        self.gro = 360/(self.basetime*60)
+>>>>>>> devbasics
         percentage = 20
 >>>>>>> devbasics
         button_height = 100
         button_width = 200
 <<<<<<< HEAD
+<<<<<<< HEAD
         percentage = 1
 =======
+=======
+        self.time = "00:00"
+>>>>>>> devbasics
         self.draw(0.0001)
         self.buttons(False)
+        self.time_counter(self.time)
+
+    def time_counter(self, time):
+        self.add_widget(Label(text=self.time,font_size= 60,  pos=(350,350)))
+
 
     def printer(self,dt):
 
         if self.percentage < 360:
             self.draw(self.percentage+self.gro)
+            self.buttons(True)
         else:
             self.draw(0.0001)
-        self.buttons(True)
+            playsound('SteelBellC6.wav')
+            self.buttons(False)
+            Clock.unschedule(self.printer)
+
 
 
     def start(self, instance):
         Clock.schedule_interval(self.printer, 1)
+        self.buttons(True)
+
 
     def stop(self, instance):
         Clock.unschedule(self.printer)
@@ -51,43 +72,71 @@ class MyWidget(Widget):
         self.draw(0.0001)
         self.buttons(False)
 
+    def timeplus(self,instance):
+        self.time = "05:00"
+        self.basetime= 5*60
+        self.time_counter(self.time)
+
+
     def buttons(self, state):
 
         button_height = 100
         button_width = 200
 
-        btn1 = Button(text ='START',
+        btn1 = Button(text = 'START',
                         font_size = 55,
                         size = (button_width,button_height),
                         pos = (20,20),
                         background_color = (0, 245, 0, 1),
                         size_hint =(None,None))
-        btn2 = Button(text='STOP',
+        btn2 = Button(text = 'STOP',
                         font_size = 55,
                         pos = (300,20),
                         background_color = (0, 0, 255, 1),
                         size = (button_width,button_height),
                         size_hint =(None,None))
-        btn3 = Button(text ='RESET',
+        btn3 = Button(text = 'RESET',
                         font_size =24,
                         pos = (580,20),
                         background_color = (245, 0, 0, 1),
                         size = (button_width,button_height),
                         size_hint = (None,None))
 
+        btn4 = Button(text = 'Time +5 min',
+                        font_size =14,
+                        pos = (40,375),
+                        background_color = (245, 0, 0, 1),
+                        size = (100,50),
+                        size_hint = (None,None))
+
+        btn5 = Button(text = 'Time -5 min',
+                        font_size =14,
+                        pos = (40,325),
+                        background_color = (245, 0, 0, 1),
+                        size = (100,50),
+                        size_hint = (None,None))
+
+
+
         btn1.disabled = state
 
         btn1.bind(on_press = self.start)
         btn2.bind(on_press = self.stop)
         btn3.bind(on_press = self.reset)
+        btn4.bind(on_press = self.timeplus)
 
         self.add_widget(btn1)
         self.add_widget(btn2)
         self.add_widget(btn3)
+<<<<<<< HEAD
 
 >>>>>>> devbasics
 
 
+=======
+        self.add_widget(btn4)
+        self.add_widget(btn5)
+>>>>>>> devbasics
 
 
     def draw(self, percentage):
@@ -144,6 +193,8 @@ class MyWidget(Widget):
 =======
 
 >>>>>>> devbasics
+
+
 
 class PomodoroApp(App):
     def build(self):
