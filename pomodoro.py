@@ -10,11 +10,14 @@ from kivy.uix.widget import Widget
 from kivy.clock import Clock
 from playsound import playsound
 import time
+from kivy.core.text import Label as CoreLabel
+
 
 class MyWidget(Widget):
     def __init__(self, **kwargs):
         super(MyWidget, self).__init__(**kwargs)
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 
@@ -26,10 +29,18 @@ class MyWidget(Widget):
         self.basetime= 25
         self.gro = 360/(self.basetime*60)
 >>>>>>> devbasics
+=======
+
+        self.minutes = 10
+        self.seconds = self.minutes*60
+        self.minlen = 60
+        self.gro = 360/(self.seconds)
+>>>>>>> devbasics
         percentage = 20
 >>>>>>> devbasics
         button_height = 100
         button_width = 200
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         percentage = 1
@@ -37,24 +48,47 @@ class MyWidget(Widget):
 =======
         self.time = "00:00"
 >>>>>>> devbasics
+=======
+>>>>>>> devbasics
         self.draw(0.0001)
         self.buttons(False)
-        self.time_counter(self.time)
+        self.time_counter()
 
-    def time_counter(self, time):
-        self.add_widget(Label(text=self.time,font_size= 60,  pos=(350,350)))
+    def time_counter(self):
+        premin = ""
+        presec = ""
+        if self.minlen > 0:
+            self.minlen -= 1
+        else:
+            self.minutes -= 1
+            self.minlen = 59
 
+
+        self.refresh_text()
+
+    def refresh_text(self):
+        premin = ""
+        presec = ""
+        if self.minutes < 10 :
+            premin = "0"
+        if self.minlen < 10 :
+            presec = "0"
+
+        timetext = premin+str(self.minutes-1)+":"+presec+str(self.minlen)
+        self.add_widget(Label(text=timetext,font_size= 60,  pos=(350,350)))
 
     def printer(self,dt):
 
         if self.percentage < 360:
             self.draw(self.percentage+self.gro)
             self.buttons(True)
+            self.time_counter()
         else:
             self.draw(0.0001)
             playsound('SteelBellC6.wav')
             self.buttons(False)
             Clock.unschedule(self.printer)
+
 
 
 
@@ -68,14 +102,25 @@ class MyWidget(Widget):
         self.buttons(False)
 
     def reset(self, instance):
+        self.minlen = 60
         Clock.unschedule(self.printer)
         self.draw(0.0001)
         self.buttons(False)
+        self.refresh_text()
 
     def timeplus(self,instance):
-        self.time = "05:00"
-        self.basetime= 5*60
-        self.time_counter(self.time)
+        self.minutes += 5
+        self.draw(self.percentage)
+        self.buttons(False)
+        self.refresh_text()
+
+    def timeminus(self,instance):
+        if self.minutes > 5:
+            self.minutes -= 5
+        self.draw(self.percentage)
+        self.buttons(False)
+        self.refresh_text()
+
 
 
     def buttons(self, state):
@@ -124,6 +169,7 @@ class MyWidget(Widget):
         btn2.bind(on_press = self.stop)
         btn3.bind(on_press = self.reset)
         btn4.bind(on_press = self.timeplus)
+        btn5.bind(on_press = self.timeminus)
 
         self.add_widget(btn1)
         self.add_widget(btn2)
