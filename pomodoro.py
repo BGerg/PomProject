@@ -59,6 +59,7 @@ class MyWidget(Widget):
 
         self.add_widget(Label(text=timetext,font_size= 60,  pos=(350,335)))
 
+
     def printer(self,dt):
 
         if self.percentage < 360:
