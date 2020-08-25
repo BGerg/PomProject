@@ -60,10 +60,9 @@ class MyWidget(Widget):
             timetext = premin+str(self.minutes-1)+":"+presec+str(self.minlen)
 
         self.add_widget(Label(text=timetext,font_size= 60,  pos=(350,335)))
-
+        self.add_widget(Label(text=str(self.restTime),font_size= 40,  pos=(500,500)))
 
     def printer(self,dt):
-        print(self.roundNumber)
         if self.percentage < 360:
             self.draw(self.percentage+self.gro)
             self.buttons(True)
@@ -119,14 +118,17 @@ class MyWidget(Widget):
         self.buttons(False)
         self.refresh_text()
 
-    def timeplus(self,instance):
+    def learnTimePlus(self,instance):
         playsound('33243__ljudman__tv.wav')
-        self.minutes += 5
+        self.learnTime += 5
+        self.minutes = self.learnTime
+        self.seconds = self.minutes*60
+        self.gro = 360/(self.seconds)
         self.draw(self.percentage)
         self.buttons(False)
         self.refresh_text()
 
-    def timeminus(self,instance):
+    def learnTimeMinus(self,instance):
         playsound('33243__ljudman__tv.wav')
         if self.minutes > 5:
             self.minutes -= 5
@@ -137,6 +139,27 @@ class MyWidget(Widget):
     def roundPlus(self,instance):
         self.roundNumber += 2
         self.circularArticle = self.roundNumber
+        self.draw(0.0001)
+        self.buttons(False)
+        self.refresh_text()
+
+    def roundMinus(self,instance):
+        if self.roundNumber > 1:
+            self.roundNumber -= 2
+        self.circularArticle = self.roundNumber
+        self.draw(0.0001)
+        self.buttons(False)
+        self.refresh_text()
+
+    def restTimePlus(self,instance):
+        self.restTime += 1
+        self.draw(0.0001)
+        self.buttons(False)
+        self.refresh_text()
+
+    def restTimeMinus(self,instance):
+        if self.restTime > 1:
+            self.restTime -= 1
         self.draw(0.0001)
         self.buttons(False)
         self.refresh_text()
@@ -186,6 +209,27 @@ class MyWidget(Widget):
                         size = (100,50),
                         size_hint = (None,None))
 
+        btn7 = Button(text = 'Round -1',
+                        font_size =14,
+                        pos = (40,200),
+                        background_color = (2.55, 0, 0.51, 1),
+                        size = (100,50),
+                        size_hint = (None,None))
+
+        btn8 = Button(text = 'Rest -1 min',
+                        font_size =14,
+                        pos = (40,450),
+                        background_color = (2.55, 0, 0.51, 1),
+                        size = (100,50),
+                        size_hint = (None,None))
+
+        btn9 = Button(text = 'Rest +1 min',
+                        font_size =14,
+                        pos = (40,500),
+                        background_color = (2.55, 0, 0.51, 1),
+                        size = (100,50),
+                        size_hint = (None,None))
+
 
 
         btn1.disabled = state
@@ -193,9 +237,12 @@ class MyWidget(Widget):
         btn1.bind(on_press = self.start)
         btn2.bind(on_press = self.stop)
         btn3.bind(on_press = self.reset)
-        btn4.bind(on_press = self.timeplus)
-        btn5.bind(on_press = self.timeminus)
+        btn4.bind(on_press = self.learnTimePlus)
+        btn5.bind(on_press = self.learnTimeMinus)
         btn6.bind(on_press = self.roundPlus)
+        btn7.bind(on_press = self.roundMinus)
+        btn8.bind(on_press = self.restTimeMinus)
+        btn9.bind(on_press = self.restTimePlus)
 
         self.add_widget(btn1)
         self.add_widget(btn2)
@@ -203,6 +250,9 @@ class MyWidget(Widget):
         self.add_widget(btn4)
         self.add_widget(btn5)
         self.add_widget(btn6)
+        self.add_widget(btn7)
+        self.add_widget(btn8)
+        self.add_widget(btn9)
 
     def draw(self, percentage):
         self.percentage = percentage
@@ -249,9 +299,6 @@ class MyWidget(Widget):
             Color(0, 0, 0)
             Ellipse(pos=(282.5, 257.5), size=(235, 235))
 
-            print(f"{self.markerPos} = {circlePartPos}*{self.count}")
-            print(f"start {self.markerPos}")
-            print(f"end {self.markerPos+circlePartPercent}")
             #progress marker
             Color(1, 1, 1)
             Ellipse(pos=(287.5, 262.5), size=(225, 225),angle_start=(self.markerPos),
