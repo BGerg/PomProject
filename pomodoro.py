@@ -147,8 +147,11 @@ class MyWidget(Widget):
 
     def learnTimeMinus(self,instance):
         playsound('33243__ljudman__tv.wav')
-        if self.minutes > 5:
-            self.minutes -= 5
+        if self.learnTime > 5:
+            self.learnTime -= 5
+        self.minutes = self.learnTime
+        self.seconds = self.minutes*60
+        self.gro = 360/(self.seconds)
         self.draw(self.percentage)
         self.buttons(False)
         self.refresh_text()
